@@ -50,9 +50,18 @@ def power( on=False ):
   if on: relay.on()
   else:  relay.off()
 
+# Leave pins as-is when exiting program,
+# see discussion here:
+# https://github.com/gpiozero/gpiozero/issues/707
+# workaround by user GAM-Gerlach 11 Feb 2020
+# To preserve the current state of a pin when 
+# starting the program, set initial_value=None
+# in LED() initializer
+
 def close(self): pass
 gpiozero.pins.rpigpio.RPiGPIOPin.close = close
 
+# Docs:
 # https://pyserial.readthedocs.io/en/latest/
 # https://gpiozero.readthedocs.io/en/latest/
 
