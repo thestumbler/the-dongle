@@ -1,0 +1,1504 @@
+
+; The recognition of labels and registers is not always good, therefore
+; be treated cautiously the results.
+
+;===============================================================================
+; DATA address definitions
+
+Common_RAM      equ     0x0020                              ; size: 64 bytes
+
+;===============================================================================
+; CODE area
+
+vector_reset:                                               ; address: 0x0000
+
+0000:  3000  movlw   0x00
+0001:  008a  movwf   PCLATH                                 ; reg: 0x00a
+0002:  2804  goto    vector_int
+0003:  0000  nop
+
+vector_int:                                                 ; address: 0x0004
+
+0004:  23ff  call    function_008
+0005:  1683  bsf     STATUS, RP0                            ; reg: 0x003, bit: 5
+0006:  0090  movwf   OSCCAL                                 ; reg: 0x090
+0007:  3000  movlw   0x00
+0008:  008a  movwf   PCLATH                                 ; reg: 0x00a
+0009:  28c6  goto    label_023
+
+
+function_000:                                               ; address: 0x000a
+; sends: ?30
+
+000a:  100a  bcf     PCLATH, 0x0                            ; reg: 0x00a
+000b:  108a  bcf     PCLATH, 0x1                            ; reg: 0x00a
+000c:  110a  bcf     PCLATH, 0x2                            ; reg: 0x00a
+000d:  0782  addwf   PCL, F                                 ; reg: 0x002
+000e:  343f  retlw   0x3f     ; ?
+000f:  3433  retlw   0x33     ; 3
+0010:  3430  retlw   0x30     ; 0
+0011:  340d  retlw   0x0d
+0012:  340a  retlw   0x0a
+0013:  3400  retlw   0x00
+
+function_001:                                               ; address: 0x0014
+; sends: 259000059
+
+0014:  100a  bcf     PCLATH, 0x0                            ; reg: 0x00a
+0015:  108a  bcf     PCLATH, 0x1                            ; reg: 0x00a
+0016:  110a  bcf     PCLATH, 0x2                            ; reg: 0x00a
+0017:  0782  addwf   PCL, F                                 ; reg: 0x002
+0018:  3432  retlw   0x32       ; 2
+0019:  3435  retlw   0x35       ; 5
+001a:  3439  retlw   0x39       ; 9
+001b:  3430  retlw   0x30       ; 0
+001c:  3430  retlw   0x30       ; 0
+001d:  3430  retlw   0x30       ; 0
+001e:  3430  retlw   0x30       ; 0
+001f:  3435  retlw   0x35       ; 5
+0020:  3439  retlw   0x39       ; 9
+0021:  340d  retlw   0x0d       ; cr
+0022:  340a  retlw   0x0a       ; lf
+0023:  3400  retlw   0x00       ; nul
+
+function_002:                                               ; address: 0x0024
+; sends: 256000056
+
+0024:  100a  bcf     PCLATH, 0x0                            ; reg: 0x00a
+0025:  108a  bcf     PCLATH, 0x1                            ; reg: 0x00a
+0026:  110a  bcf     PCLATH, 0x2                            ; reg: 0x00a
+0027:  0782  addwf   PCL, F                                 ; reg: 0x002
+0028:  3432  retlw   0x32       ; 2
+0029:  3435  retlw   0x35       ; 5
+002a:  3436  retlw   0x36       ; 6
+002b:  3430  retlw   0x30       ; 0
+002c:  3430  retlw   0x30       ; 0
+002d:  3430  retlw   0x30       ; 0
+002e:  3430  retlw   0x30       ; 0
+002f:  3435  retlw   0x35       ; 5
+0030:  3436  retlw   0x36       ; 6
+0031:  340d  retlw   0x0d       ; cr
+0032:  340a  retlw   0x0a       ; lf
+0033:  3400  retlw   0x00       ; nul
+
+function_003:                                               ; address: 0x0034
+; sends: 1280129
+
+0034:  100a  bcf     PCLATH, 0x0                            ; reg: 0x00a
+0035:  108a  bcf     PCLATH, 0x1                            ; reg: 0x00a
+0036:  110a  bcf     PCLATH, 0x2                            ; reg: 0x00a
+0037:  0782  addwf   PCL, F                                 ; reg: 0x002
+0038:  3431  retlw   0x31       ; 1
+0039:  3432  retlw   0x32       ; 2
+003a:  3438  retlw   0x38       ; 8
+003b:  3430  retlw   0x30       ; 0
+003c:  3431  retlw   0x31       ; 1
+003d:  3432  retlw   0x32       ; 2
+003e:  3439  retlw   0x39       ; 9
+003f:  340d  retlw   0x0d
+0040:  340a  retlw   0x0a
+0041:  3400  retlw   0x00
+
+function_004:                                               ; address: 0x0042
+; sends: ~OK
+
+0042:  100a  bcf     PCLATH, 0x0                            ; reg: 0x00a
+0043:  108a  bcf     PCLATH, 0x1                            ; reg: 0x00a
+0044:  110a  bcf     PCLATH, 0x2                            ; reg: 0x00a
+0045:  0782  addwf   PCL, F                                 ; reg: 0x002
+0046:  347e  retlw   0x7e      ; ~
+0047:  344f  retlw   0x4f      ; O
+0048:  344b  retlw   0x4b      ; K
+0049:  340d  retlw   0x0d
+004a:  340a  retlw   0x0a
+004b:  3400  retlw   0x00
+
+label_002:                                                  ; address: 0x004c
+
+004c:  300d  movlw   0x0d
+004d:  00a0  movwf   Common_RAM                             ; reg: 0x020
+004e:  0181  clrf    TMR0                                   ; reg: 0x001
+004f:  3081  movlw   0x81
+0050:  0084  movwf   FSR                                    ; reg: 0x004
+0051:  1383  bcf     STATUS, IRP                            ; reg: 0x003, bit: 7
+0052:  0800  movf    INDF, W                                ; reg: 0x000
+0053:  39f0  andlw   0xf0
+0054:  3807  iorlw   0x07
+0055:  0080  movwf   INDF                                   ; reg: 0x000
+0056:  0064  clrwdt
+0057:  0800  movf    INDF, W                                ; reg: 0x000
+0058:  39f7  andlw   0xf7
+0059:  19a0  btfsc   Common_RAM, 0x3                        ; reg: 0x020
+005a:  39f0  andlw   0xf0
+005b:  0420  iorwf   Common_RAM, W                          ; reg: 0x020
+005c:  0080  movwf   INDF                                   ; reg: 0x000
+005d:  0064  clrwdt
+005e:  1683  bsf     STATUS, RP0                            ; reg: 0x003, bit: 5
+005f:  1105  bcf     TRISIO, TRISIO2                        ; reg: 0x085, bit: 2
+0060:  1283  bcf     STATUS, RP0                            ; reg: 0x003, bit: 5
+0061:  1505  bsf     GPIO, GP2                              ; reg: 0x005, bit: 2
+0062:  28d0  goto    label_024
+
+function_005:                                               ; address: 0x0063
+
+0063:  3043  movlw   0x43
+0064:  0084  movwf   FSR                                    ; reg: 0x004
+0065:  1383  bcf     STATUS, IRP                            ; reg: 0x003, bit: 7
+0066:  0800  movf    INDF, W                                ; reg: 0x000
+0067:  1903  btfsc   STATUS, Z                              ; reg: 0x003, bit: 2
+0068:  287a  goto    label_007
+
+label_003:                                                  ; address: 0x0069
+
+0069:  3001  movlw   0x01
+006a:  00a1  movwf   (Common_RAM + 1)                       ; reg: 0x021
+
+label_004:                                                  ; address: 0x006b
+
+006b:  30bf  movlw   0xbf
+006c:  00a0  movwf   Common_RAM                             ; reg: 0x020
+
+label_005:                                                  ; address: 0x006d
+
+006d:  0064  clrwdt
+006e:  0ba0  decfsz  Common_RAM, F                          ; reg: 0x020
+006f:  286d  goto    label_005
+0070:  0ba1  decfsz  (Common_RAM + 1), F                    ; reg: 0x021
+0071:  286b  goto    label_004
+0072:  304a  movlw   0x4a
+0073:  00a0  movwf   Common_RAM                             ; reg: 0x020
+
+label_006:                                                  ; address: 0x0074
+
+0074:  0ba0  decfsz  Common_RAM, F                          ; reg: 0x020
+0075:  2874  goto    label_006
+0076:  0000  nop
+0077:  0064  clrwdt
+0078:  0b80  decfsz  INDF, F                                ; reg: 0x000
+0079:  2869  goto    label_003
+
+label_007:                                                  ; address: 0x007a
+
+007a:  0008  return
+
+f_serial_out:                                               ; address: 0x007b
+
+007b:  1683  bsf     STATUS, RP0                            ; reg: 0x003, bit: 5
+007c:  1205  bcf     TRISIO, TRISIO4                        ; reg: 0x085, bit: 4
+007d:  1283  bcf     STATUS, RP0                            ; reg: 0x003, bit: 5
+007e:  1205  bcf     GPIO, GP4                              ; reg: 0x005, bit: 4
+007f:  3008  movlw   0x08
+0080:  00a1  movwf   (Common_RAM + 1)                       ; reg: 0x021
+0081:  2882  goto    label_008
+
+label_008:                                                  ; address: 0x0082
+
+0082:  0000  nop
+0083:  17a1  bsf     (Common_RAM + 1), 0x7                  ; reg: 0x021
+0084:  2893  goto    label_013
+
+label_009:                                                  ; address: 0x0085
+
+0085:  13a1  bcf     (Common_RAM + 1), 0x7                  ; reg: 0x021
+
+label_010:                                                  ; address: 0x0086
+
+0086:  0cc3  rrf     (Common_RAM + 35), F                   ; reg: 0x043
+0087:  1803  btfsc   STATUS, C                              ; reg: 0x003, bit: 0
+0088:  1605  bsf     GPIO, GP4                              ; reg: 0x005, bit: 4
+0089:  1c03  btfss   STATUS, C                              ; reg: 0x003, bit: 0
+008a:  1205  bcf     GPIO, GP4                              ; reg: 0x005, bit: 4
+008b:  1721  bsf     (Common_RAM + 1), 0x6                  ; reg: 0x021
+008c:  2893  goto    label_013
+
+label_011:                                                  ; address: 0x008d
+
+008d:  1321  bcf     (Common_RAM + 1), 0x6                  ; reg: 0x021
+008e:  0ba1  decfsz  (Common_RAM + 1), F                    ; reg: 0x021
+008f:  2886  goto    label_010
+0090:  2891  goto    label_012
+
+label_012:                                                  ; address: 0x0091
+
+0091:  0000  nop
+0092:  1605  bsf     GPIO, GP4                              ; reg: 0x005, bit: 4
+
+label_013:                                                  ; address: 0x0093
+
+0093:  301c  movlw   0x1c
+0094:  0084  movwf   FSR                                    ; reg: 0x004
+
+label_014:                                                  ; address: 0x0095
+
+0095:  0b84  decfsz  FSR, F                                 ; reg: 0x004
+0096:  2895  goto    label_014
+0097:  0000  nop
+0098:  0064  clrwdt
+0099:  1ba1  btfsc   (Common_RAM + 1), 0x7                  ; reg: 0x021
+009a:  2885  goto    label_009
+009b:  1b21  btfsc   (Common_RAM + 1), 0x6                  ; reg: 0x021
+009c:  288d  goto    label_011
+009d:  0008  return
+
+function_007:                                               ; address: 0x009e
+
+009e:  1683  bsf     STATUS, RP0                            ; reg: 0x003, bit: 5
+009f:  1685  bsf     TRISIO, TRISIO5                        ; reg: 0x085, bit: 5
+
+label_015:                                                  ; address: 0x00a0
+
+00a0:  0064  clrwdt
+00a1:  1283  bcf     STATUS, RP0                            ; reg: 0x003, bit: 5
+00a2:  1e85  btfss   GPIO, GP5                              ; reg: 0x005, bit: 5
+00a3:  28a6  goto    label_016
+00a4:  1683  bsf     STATUS, RP0                            ; reg: 0x003, bit: 5
+00a5:  28a0  goto    label_015
+
+label_016:                                                  ; address: 0x00a6
+
+00a6:  3008  movlw   0x08
+00a7:  00a0  movwf   Common_RAM                             ; reg: 0x020
+00a8:  01c6  clrf    (Common_RAM + 38)                      ; reg: 0x046
+00a9:  17a0  bsf     Common_RAM, 0x7                        ; reg: 0x020
+00aa:  28b9  goto    label_020
+
+label_017:                                                  ; address: 0x00ab
+
+00ab:  13a0  bcf     Common_RAM, 0x7                        ; reg: 0x020
+00ac:  28b9  goto    label_020
+
+label_018:                                                  ; address: 0x00ad
+
+00ad:  1003  bcf     STATUS, C                              ; reg: 0x003, bit: 0
+00ae:  1a85  btfsc   GPIO, GP5                              ; reg: 0x005, bit: 5
+00af:  1403  bsf     STATUS, C                              ; reg: 0x003, bit: 0
+00b0:  0cc6  rrf     (Common_RAM + 38), F                   ; reg: 0x046
+00b1:  1720  bsf     Common_RAM, 0x6                        ; reg: 0x020
+00b2:  28b9  goto    label_020
+
+label_019:                                                  ; address: 0x00b3
+
+00b3:  1320  bcf     Common_RAM, 0x6                        ; reg: 0x020
+00b4:  0ba0  decfsz  Common_RAM, F                          ; reg: 0x020
+00b5:  28ad  goto    label_018
+00b6:  0846  movf    (Common_RAM + 38), W                   ; reg: 0x046
+00b7:  00a1  movwf   (Common_RAM + 1)                       ; reg: 0x021
+00b8:  28c5  goto    label_022
+
+label_020:                                                  ; address: 0x00b9
+
+00b9:  301c  movlw   0x1c
+00ba:  1ba0  btfsc   Common_RAM, 0x7                        ; reg: 0x020
+00bb:  3007  movlw   0x07
+00bc:  00a1  movwf   (Common_RAM + 1)                       ; reg: 0x021
+
+label_021:                                                  ; address: 0x00bd
+
+00bd:  0ba1  decfsz  (Common_RAM + 1), F                    ; reg: 0x021
+00be:  28bd  goto    label_021
+00bf:  0000  nop
+00c0:  1ba0  btfsc   Common_RAM, 0x7                        ; reg: 0x020
+00c1:  28ab  goto    label_017
+00c2:  1b20  btfsc   Common_RAM, 0x6                        ; reg: 0x020
+00c3:  28b3  goto    label_019
+00c4:  28ad  goto    label_018
+
+label_022:                                                  ; address: 0x00c5
+
+00c5:  0008  return
+
+label_023:                                                  ; address: 0x00c6
+
+00c6:  1683  bsf     STATUS, RP0                            ; reg: 0x003, bit: 5
+00c7:  1205  bcf     TRISIO, TRISIO4                        ; reg: 0x085, bit: 4
+00c8:  1283  bcf     STATUS, RP0                            ; reg: 0x003, bit: 5
+00c9:  1605  bsf     GPIO, GP4                              ; reg: 0x005, bit: 4
+00ca:  01aa  clrf    (Common_RAM + 10)                      ; reg: 0x02a
+00cb:  3007  movlw   0x07
+00cc:  0099  movwf   CMCON                                  ; reg: 0x019
+00cd:  01a4  clrf    (Common_RAM + 4)                       ; reg: 0x024
+00ce:  01a5  clrf    (Common_RAM + 5)                       ; reg: 0x025
+00cf:  284c  goto    label_002
+
+label_024:                                                  ; address: 0x00d0
+
+00d0:  0064  clrwdt
+00d1:  3004  movlw   0x04
+00d2:  00c2  movwf   (Common_RAM + 34)                      ; reg: 0x042
+
+label_025:                                                  ; address: 0x00d3
+
+00d3:  30fa  movlw   0xfa
+00d4:  00c3  movwf   (Common_RAM + 35)                      ; reg: 0x043
+00d5:  2063  call    function_005
+00d6:  0bc2  decfsz  (Common_RAM + 34), F                   ; reg: 0x042
+00d7:  28d3  goto    label_025
+00d8:  1683  bsf     STATUS, RP0                            ; reg: 0x003, bit: 5
+00d9:  019b  clrf    EEADR                                  ; reg: 0x09b
+00da:  139c  bcf     EECON1, 0x7                            ; reg: 0x09c
+00db:  141c  bsf     EECON1, RD                             ; reg: 0x09c, bit: 0
+00dc:  081a  movf    EEDAT, W                               ; reg: 0x09a
+00dd:  1283  bcf     STATUS, RP0                            ; reg: 0x003, bit: 5
+00de:  00ae  movwf   (Common_RAM + 14)                      ; reg: 0x02e
+
+label_026:                                                  ; address: 0x00df
+
+00df:  082a  movf    (Common_RAM + 10), W                   ; reg: 0x02a
+00e0:  3efc  addlw   0xfc
+00e1:  1803  btfsc   STATUS, C                              ; reg: 0x003, bit: 0
+00e2:  29ca  goto    label_057
+00e3:  3e04  addlw   0x04
+00e4:  29cc  goto    label_058
+
+label_027:                                                  ; address: 0x00e5
+
+00e5:  01c2  clrf    (Common_RAM + 34)                      ; reg: 0x042
+
+label_028:                                                  ; address: 0x00e6
+
+00e6:  0842  movf    (Common_RAM + 34), W                   ; reg: 0x042
+00e7:  200a  call    function_000
+00e8:  0ac2  incf    (Common_RAM + 34), F                   ; reg: 0x042
+00e9:  00a0  movwf   Common_RAM                             ; reg: 0x020
+00ea:  00c3  movwf   (Common_RAM + 35)                      ; reg: 0x043
+00eb:  207b  call    f_serial_out
+00ec:  3005  movlw   0x05
+00ed:  0242  subwf   (Common_RAM + 34), W                   ; reg: 0x042
+00ee:  1d03  btfss   STATUS, Z                              ; reg: 0x003, bit: 2
+00ef:  28e6  goto    label_028
+00f0:  209e  call    function_007
+00f1:  0821  movf    (Common_RAM + 1), W                    ; reg: 0x021
+00f2:  00af  movwf   (Common_RAM + 15)                      ; reg: 0x02f
+00f3:  082f  movf    (Common_RAM + 15), W                   ; reg: 0x02f
+00f4:  3c33  sublw   0x33
+00f5:  1d03  btfss   STATUS, Z                              ; reg: 0x003, bit: 2
+00f6:  28fe  goto    label_029
+00f7:  300c  movlw   0x0c
+00f8:  00ac  movwf   (Common_RAM + 12)                      ; reg: 0x02c
+00f9:  082e  movf    (Common_RAM + 14), W                   ; reg: 0x02e
+00fa:  3cab  sublw   0xab
+00fb:  1d03  btfss   STATUS, Z                              ; reg: 0x003, bit: 2
+00fc:  01ac  clrf    (Common_RAM + 12)                      ; reg: 0x02c
+00fd:  2906  goto    label_031
+
+label_029:                                                  ; address: 0x00fe
+
+00fe:  082f  movf    (Common_RAM + 15), W                   ; reg: 0x02f
+00ff:  3c7e  sublw   0x7e
+0100:  1d03  btfss   STATUS, Z                              ; reg: 0x003, bit: 2
+0101:  2905  goto    label_030
+0102:  3002  movlw   0x02
+0103:  00ac  movwf   (Common_RAM + 12)                      ; reg: 0x02c
+0104:  2906  goto    label_031
+
+label_030:                                                  ; address: 0x0105
+
+0105:  01ac  clrf    (Common_RAM + 12)                      ; reg: 0x02c
+
+label_031:                                                  ; address: 0x0106
+
+0106:  3001  movlw   0x01
+0107:  00ab  movwf   (Common_RAM + 11)                      ; reg: 0x02b
+
+label_032:                                                  ; address: 0x0108
+
+0108:  082c  movf    (Common_RAM + 12), W                   ; reg: 0x02c
+0109:  022b  subwf   (Common_RAM + 11), W                   ; reg: 0x02b
+010a:  1803  btfsc   STATUS, C                              ; reg: 0x003, bit: 0
+010b:  2920  goto    label_033
+010c:  302f  movlw   0x2f
+010d:  072b  addwf   (Common_RAM + 11), W                   ; reg: 0x02b
+010e:  0084  movwf   FSR                                    ; reg: 0x004
+010f:  1383  bcf     STATUS, IRP                            ; reg: 0x003, bit: 7
+0110:  01c5  clrf    (Common_RAM + 37)                      ; reg: 0x045
+0111:  0804  movf    FSR, W                                 ; reg: 0x004
+0112:  00c4  movwf   (Common_RAM + 36)                      ; reg: 0x044
+0113:  1045  bcf     (Common_RAM + 37), 0x0                 ; reg: 0x045
+0114:  1b83  btfsc   STATUS, IRP                            ; reg: 0x003, bit: 7
+0115:  1445  bsf     (Common_RAM + 37), 0x0                 ; reg: 0x045
+0116:  209e  call    function_007
+0117:  0844  movf    (Common_RAM + 36), W                   ; reg: 0x044
+0118:  0084  movwf   FSR                                    ; reg: 0x004
+0119:  1383  bcf     STATUS, IRP                            ; reg: 0x003, bit: 7
+011a:  1845  btfsc   (Common_RAM + 37), 0x0                 ; reg: 0x045
+011b:  1783  bsf     STATUS, IRP                            ; reg: 0x003, bit: 7
+011c:  0821  movf    (Common_RAM + 1), W                    ; reg: 0x021
+011d:  0080  movwf   INDF                                   ; reg: 0x000
+011e:  0aab  incf    (Common_RAM + 11), F                   ; reg: 0x02b
+011f:  2908  goto    label_032
+
+label_033:                                                  ; address: 0x0120
+
+0120:  082c  movf    (Common_RAM + 12), W                   ; reg: 0x02c
+0121:  3c0c  sublw   0x0c
+0122:  1d03  btfss   STATUS, Z                              ; reg: 0x003, bit: 2
+0123:  2927  goto    label_034
+0124:  3001  movlw   0x01
+0125:  00aa  movwf   (Common_RAM + 10)                      ; reg: 0x02a
+0126:  2930  goto    label_036
+
+label_034:                                                  ; address: 0x0127
+
+0127:  082c  movf    (Common_RAM + 12), W                   ; reg: 0x02c
+0128:  3c02  sublw   0x02
+0129:  1d03  btfss   STATUS, Z                              ; reg: 0x003, bit: 2
+012a:  292e  goto    label_035
+012b:  3002  movlw   0x02
+012c:  00aa  movwf   (Common_RAM + 10)                      ; reg: 0x02a
+012d:  2930  goto    label_036
+
+label_035:                                                  ; address: 0x012e
+
+012e:  3003  movlw   0x03
+012f:  00aa  movwf   (Common_RAM + 10)                      ; reg: 0x02a
+
+label_036:                                                  ; address: 0x0130
+
+0130:  29ca  goto    label_057
+
+label_037:                                                  ; address: 0x0131
+
+0131:  0832  movf    (Common_RAM + 18), W                   ; reg: 0x032
+0132:  3c44  sublw   0x44
+0133:  1d03  btfss   STATUS, Z                              ; reg: 0x003, bit: 2
+0134:  2941  goto    label_039
+0135:  01c2  clrf    (Common_RAM + 34)                      ; reg: 0x042
+
+label_038:                                                  ; address: 0x0136
+
+0136:  0842  movf    (Common_RAM + 34), W                   ; reg: 0x042
+0137:  2014  call    function_001
+0138:  0ac2  incf    (Common_RAM + 34), F                   ; reg: 0x042
+0139:  00a0  movwf   Common_RAM                             ; reg: 0x020
+013a:  00c3  movwf   (Common_RAM + 35)                      ; reg: 0x043
+013b:  207b  call    f_serial_out
+013c:  300b  movlw   0x0b
+013d:  0242  subwf   (Common_RAM + 34), W                   ; reg: 0x042
+013e:  1d03  btfss   STATUS, Z                              ; reg: 0x003, bit: 2
+013f:  2936  goto    label_038
+0140:  294c  goto    label_041
+
+label_039:                                                  ; address: 0x0141
+
+0141:  01c2  clrf    (Common_RAM + 34)                      ; reg: 0x042
+
+label_040:                                                  ; address: 0x0142
+
+0142:  0842  movf    (Common_RAM + 34), W                   ; reg: 0x042
+0143:  2024  call    function_002
+0144:  0ac2  incf    (Common_RAM + 34), F                   ; reg: 0x042
+0145:  00a0  movwf   Common_RAM                             ; reg: 0x020
+0146:  00c3  movwf   (Common_RAM + 35)                      ; reg: 0x043
+0147:  207b  call    f_serial_out
+0148:  300b  movlw   0x0b
+0149:  0242  subwf   (Common_RAM + 34), W                   ; reg: 0x042
+014a:  1d03  btfss   STATUS, Z                              ; reg: 0x003, bit: 2
+014b:  2942  goto    label_040
+
+label_041:                                                  ; address: 0x014c
+
+014c:  082a  movf    (Common_RAM + 10), W                   ; reg: 0x02a
+014d:  3c03  sublw   0x03
+014e:  1903  btfsc   STATUS, Z                              ; reg: 0x003, bit: 2
+014f:  298c  goto    label_048
+0150:  209e  call    function_007
+0151:  0821  movf    (Common_RAM + 1), W                    ; reg: 0x021
+0152:  00af  movwf   (Common_RAM + 15)                      ; reg: 0x02f
+0153:  082f  movf    (Common_RAM + 15), W                   ; reg: 0x02f
+0154:  3c4f  sublw   0x4f
+0155:  1d03  btfss   STATUS, Z                              ; reg: 0x003, bit: 2
+0156:  298a  goto    label_047
+0157:  3064  movlw   0x64
+0158:  00c3  movwf   (Common_RAM + 35)                      ; reg: 0x043
+0159:  2063  call    function_005
+015a:  01c2  clrf    (Common_RAM + 34)                      ; reg: 0x042
+
+label_042:                                                  ; address: 0x015b
+
+015b:  0842  movf    (Common_RAM + 34), W                   ; reg: 0x042
+015c:  2034  call    function_003
+015d:  0ac2  incf    (Common_RAM + 34), F                   ; reg: 0x042
+015e:  00a0  movwf   Common_RAM                             ; reg: 0x020
+015f:  00c3  movwf   (Common_RAM + 35)                      ; reg: 0x043
+0160:  207b  call    f_serial_out
+0161:  3009  movlw   0x09
+0162:  0242  subwf   (Common_RAM + 34), W                   ; reg: 0x042
+0163:  1d03  btfss   STATUS, Z                              ; reg: 0x003, bit: 2
+0164:  295b  goto    label_042
+0165:  209e  call    function_007
+0166:  0821  movf    (Common_RAM + 1), W                    ; reg: 0x021
+0167:  00af  movwf   (Common_RAM + 15)                      ; reg: 0x02f
+0168:  082f  movf    (Common_RAM + 15), W                   ; reg: 0x02f
+0169:  3c4f  sublw   0x4f
+016a:  1d03  btfss   STATUS, Z                              ; reg: 0x003, bit: 2
+016b:  2987  goto    label_045
+016c:  080b  movf    INTCON, W                              ; reg: 0x00b
+016d:  00a0  movwf   Common_RAM                             ; reg: 0x020
+016e:  138b  bcf     INTCON, GIE                            ; reg: 0x00b, bit: 7
+016f:  1683  bsf     STATUS, RP0                            ; reg: 0x003, bit: 5
+0170:  019b  clrf    EEADR                                  ; reg: 0x09b
+0171:  30de  movlw   0xde
+0172:  009a  movwf   EEDAT                                  ; reg: 0x09a
+0173:  139c  bcf     EECON1, 0x7                            ; reg: 0x09c
+0174:  151c  bsf     EECON1, WREN                           ; reg: 0x09c, bit: 2
+0175:  3055  movlw   0x55
+0176:  009d  movwf   EECON2                                 ; reg: 0x09d
+0177:  30aa  movlw   0xaa
+0178:  009d  movwf   EECON2                                 ; reg: 0x09d
+0179:  149c  bsf     EECON1, WR                             ; reg: 0x09c, bit: 1
+
+label_043:                                                  ; address: 0x017a
+
+017a:  189c  btfsc   0x1c, 0x1                              ; reg: 0x01c
+017b:  297a  goto    label_043
+017c:  111c  bcf     0x1c, 0x2                              ; reg: 0x01c
+017d:  1283  bcf     STATUS, RP0                            ; reg: 0x003, bit: 5
+017e:  0820  movf    Common_RAM, W                          ; reg: 0x020
+017f:  048b  iorwf   INTCON, F                              ; reg: 0x00b
+
+label_044:                                                  ; address: 0x0180
+
+0180:  1683  bsf     STATUS, RP0                            ; reg: 0x003, bit: 5
+0181:  1105  bcf     TRISIO, TRISIO2                        ; reg: 0x085, bit: 2
+0182:  1283  bcf     STATUS, RP0                            ; reg: 0x003, bit: 5
+0183:  1105  bcf     GPIO, GP2                              ; reg: 0x005, bit: 2
+0184:  0064  clrwdt
+0185:  2980  goto    label_044
+0186:  2989  goto    label_046
+
+label_045:                                                  ; address: 0x0187
+
+0187:  3003  movlw   0x03
+0188:  00aa  movwf   (Common_RAM + 10)                      ; reg: 0x02a
+
+label_046:                                                  ; address: 0x0189
+
+0189:  298c  goto    label_048
+
+label_047:                                                  ; address: 0x018a
+
+018a:  3003  movlw   0x03
+018b:  00aa  movwf   (Common_RAM + 10)                      ; reg: 0x02a
+
+label_048:                                                  ; address: 0x018c
+
+018c:  29ca  goto    label_057
+
+label_049:                                                  ; address: 0x018d
+
+018d:  0830  movf    (Common_RAM + 16), W                   ; reg: 0x030
+018e:  3c54  sublw   0x54
+018f:  1d03  btfss   STATUS, Z                              ; reg: 0x003, bit: 2
+0190:  29be  goto    label_054
+0191:  01c2  clrf    (Common_RAM + 34)                      ; reg: 0x042
+
+label_050:                                                  ; address: 0x0192
+
+0192:  0842  movf    (Common_RAM + 34), W                   ; reg: 0x042
+0193:  2042  call    function_004
+0194:  0ac2  incf    (Common_RAM + 34), F                   ; reg: 0x042
+0195:  00a0  movwf   Common_RAM                             ; reg: 0x020
+0196:  00c3  movwf   (Common_RAM + 35)                      ; reg: 0x043
+0197:  207b  call    f_serial_out                           ;; serial output???
+0198:  3005  movlw   0x05
+0199:  0242  subwf   (Common_RAM + 34), W                   ; reg: 0x042
+019a:  1d03  btfss   STATUS, Z                              ; reg: 0x003, bit: 2
+019b:  2992  goto    label_050
+019c:  080b  movf    INTCON, W                              ; reg: 0x00b
+019d:  00a0  movwf   Common_RAM                             ; reg: 0x020
+019e:  138b  bcf     INTCON, GIE                            ; reg: 0x00b, bit: 7
+019f:  1683  bsf     STATUS, RP0                            ; reg: 0x003, bit: 5
+01a0:  019b  clrf    EEADR                                  ; reg: 0x09b
+01a1:  30ab  movlw   0xab
+01a2:  009a  movwf   EEDAT                                  ; reg: 0x09a
+01a3:  139c  bcf     EECON1, 0x7                            ; reg: 0x09c
+01a4:  151c  bsf     EECON1, WREN                           ; reg: 0x09c, bit: 2
+01a5:  3055  movlw   0x55
+01a6:  009d  movwf   EECON2                                 ; reg: 0x09d
+01a7:  30aa  movlw   0xaa
+01a8:  009d  movwf   EECON2                                 ; reg: 0x09d
+01a9:  149c  bsf     EECON1, WR                             ; reg: 0x09c, bit: 1
+
+label_051:                                                  ; address: 0x01aa
+
+01aa:  189c  btfsc   0x1c, 0x1                              ; reg: 0x01c
+01ab:  29aa  goto    label_051
+01ac:  111c  bcf     0x1c, 0x2                              ; reg: 0x01c
+01ad:  1283  bcf     STATUS, RP0                            ; reg: 0x003, bit: 5
+01ae:  0820  movf    Common_RAM, W                          ; reg: 0x020
+01af:  048b  iorwf   INTCON, F                              ; reg: 0x00b
+
+label_052:                                                  ; address: 0x01b0
+
+01b0:  1683  bsf     STATUS, RP0                            ; reg: 0x003, bit: 5
+01b1:  1105  bcf     TRISIO, TRISIO2                        ; reg: 0x085, bit: 2
+01b2:  3004  movlw   0x04
+01b3:  1283  bcf     STATUS, RP0                            ; reg: 0x003, bit: 5
+01b4:  0685  xorwf   GPIO, F                                ; reg: 0x005
+01b5:  3002  movlw   0x02
+01b6:  00c2  movwf   (Common_RAM + 34)                      ; reg: 0x042
+
+label_053:                                                  ; address: 0x01b7
+
+01b7:  30fa  movlw   0xfa
+01b8:  00c3  movwf   (Common_RAM + 35)                      ; reg: 0x043
+01b9:  2063  call    function_005
+01ba:  0bc2  decfsz  (Common_RAM + 34), F                   ; reg: 0x042
+01bb:  29b7  goto    label_053
+01bc:  29b0  goto    label_052
+01bd:  29c0  goto    label_055
+
+label_054:                                                  ; address: 0x01be
+
+01be:  3003  movlw   0x03
+01bf:  00aa  movwf   (Common_RAM + 10)                      ; reg: 0x02a
+
+label_055:                                                  ; address: 0x01c0
+
+01c0:  29ca  goto    label_057
+
+label_056:                                                  ; address: 0x01c1
+
+01c1:  1683  bsf     STATUS, RP0                            ; reg: 0x003, bit: 5
+01c2:  1105  bcf     TRISIO, TRISIO2                        ; reg: 0x085, bit: 2
+01c3:  3004  movlw   0x04
+01c4:  1283  bcf     STATUS, RP0                            ; reg: 0x003, bit: 5
+01c5:  0685  xorwf   GPIO, F                                ; reg: 0x005
+01c6:  3064  movlw   0x64
+01c7:  00c3  movwf   (Common_RAM + 35)                      ; reg: 0x043
+01c8:  2063  call    function_005
+01c9:  29c1  goto    label_056
+
+label_057:                                                  ; address: 0x01ca
+
+01ca:  28df  goto    label_026
+01cb:  0063  sleep
+
+label_058:                                                  ; address: 0x01cc
+
+01cc:  140a  bsf     PCLATH, 0x0                            ; reg: 0x00a
+01cd:  108a  bcf     PCLATH, 0x1                            ; reg: 0x00a
+01ce:  110a  bcf     PCLATH, 0x2                            ; reg: 0x00a
+01cf:  0782  addwf   PCL, F                                 ; reg: 0x002
+01d0:  28e5  goto    label_027
+01d1:  2931  goto    label_037
+01d2:  298d  goto    label_049
+01d3:  29c1  goto    label_056
+01d4:  3fff  addlw   0xff
+01d5:  3fff  addlw   0xff
+01d6:  3fff  addlw   0xff
+01d7:  3fff  addlw   0xff
+01d8:  3fff  addlw   0xff
+01d9:  3fff  addlw   0xff
+01da:  3fff  addlw   0xff
+01db:  3fff  addlw   0xff
+01dc:  3fff  addlw   0xff
+01dd:  3fff  addlw   0xff
+01de:  3fff  addlw   0xff
+01df:  3fff  addlw   0xff
+01e0:  3fff  addlw   0xff
+01e1:  3fff  addlw   0xff
+01e2:  3fff  addlw   0xff
+01e3:  3fff  addlw   0xff
+01e4:  3fff  addlw   0xff
+01e5:  3fff  addlw   0xff
+01e6:  3fff  addlw   0xff
+01e7:  3fff  addlw   0xff
+01e8:  3fff  addlw   0xff
+01e9:  3fff  addlw   0xff
+01ea:  3fff  addlw   0xff
+01eb:  3fff  addlw   0xff
+01ec:  3fff  addlw   0xff
+01ed:  3fff  addlw   0xff
+01ee:  3fff  addlw   0xff
+01ef:  3fff  addlw   0xff
+01f0:  3fff  addlw   0xff
+01f1:  3fff  addlw   0xff
+01f2:  3fff  addlw   0xff
+01f3:  3fff  addlw   0xff
+01f4:  3fff  addlw   0xff
+01f5:  3fff  addlw   0xff
+01f6:  3fff  addlw   0xff
+01f7:  3fff  addlw   0xff
+01f8:  3fff  addlw   0xff
+01f9:  3fff  addlw   0xff
+01fa:  3fff  addlw   0xff
+01fb:  3fff  addlw   0xff
+01fc:  3fff  addlw   0xff
+01fd:  3fff  addlw   0xff
+01fe:  3fff  addlw   0xff
+01ff:  3fff  addlw   0xff
+0200:  3fff  addlw   0xff
+0201:  3fff  addlw   0xff
+0202:  3fff  addlw   0xff
+0203:  3fff  addlw   0xff
+0204:  3fff  addlw   0xff
+0205:  3fff  addlw   0xff
+0206:  3fff  addlw   0xff
+0207:  3fff  addlw   0xff
+0208:  3fff  addlw   0xff
+0209:  3fff  addlw   0xff
+020a:  3fff  addlw   0xff
+020b:  3fff  addlw   0xff
+020c:  3fff  addlw   0xff
+020d:  3fff  addlw   0xff
+020e:  3fff  addlw   0xff
+020f:  3fff  addlw   0xff
+0210:  3fff  addlw   0xff
+0211:  3fff  addlw   0xff
+0212:  3fff  addlw   0xff
+0213:  3fff  addlw   0xff
+0214:  3fff  addlw   0xff
+0215:  3fff  addlw   0xff
+0216:  3fff  addlw   0xff
+0217:  3fff  addlw   0xff
+0218:  3fff  addlw   0xff
+0219:  3fff  addlw   0xff
+021a:  3fff  addlw   0xff
+021b:  3fff  addlw   0xff
+021c:  3fff  addlw   0xff
+021d:  3fff  addlw   0xff
+021e:  3fff  addlw   0xff
+021f:  3fff  addlw   0xff
+0220:  3fff  addlw   0xff
+0221:  3fff  addlw   0xff
+0222:  3fff  addlw   0xff
+0223:  3fff  addlw   0xff
+0224:  3fff  addlw   0xff
+0225:  3fff  addlw   0xff
+0226:  3fff  addlw   0xff
+0227:  3fff  addlw   0xff
+0228:  3fff  addlw   0xff
+0229:  3fff  addlw   0xff
+022a:  3fff  addlw   0xff
+022b:  3fff  addlw   0xff
+022c:  3fff  addlw   0xff
+022d:  3fff  addlw   0xff
+022e:  3fff  addlw   0xff
+022f:  3fff  addlw   0xff
+0230:  3fff  addlw   0xff
+0231:  3fff  addlw   0xff
+0232:  3fff  addlw   0xff
+0233:  3fff  addlw   0xff
+0234:  3fff  addlw   0xff
+0235:  3fff  addlw   0xff
+0236:  3fff  addlw   0xff
+0237:  3fff  addlw   0xff
+0238:  3fff  addlw   0xff
+0239:  3fff  addlw   0xff
+023a:  3fff  addlw   0xff
+023b:  3fff  addlw   0xff
+023c:  3fff  addlw   0xff
+023d:  3fff  addlw   0xff
+023e:  3fff  addlw   0xff
+023f:  3fff  addlw   0xff
+0240:  3fff  addlw   0xff
+0241:  3fff  addlw   0xff
+0242:  3fff  addlw   0xff
+0243:  3fff  addlw   0xff
+0244:  3fff  addlw   0xff
+0245:  3fff  addlw   0xff
+0246:  3fff  addlw   0xff
+0247:  3fff  addlw   0xff
+0248:  3fff  addlw   0xff
+0249:  3fff  addlw   0xff
+024a:  3fff  addlw   0xff
+024b:  3fff  addlw   0xff
+024c:  3fff  addlw   0xff
+024d:  3fff  addlw   0xff
+024e:  3fff  addlw   0xff
+024f:  3fff  addlw   0xff
+0250:  3fff  addlw   0xff
+0251:  3fff  addlw   0xff
+0252:  3fff  addlw   0xff
+0253:  3fff  addlw   0xff
+0254:  3fff  addlw   0xff
+0255:  3fff  addlw   0xff
+0256:  3fff  addlw   0xff
+0257:  3fff  addlw   0xff
+0258:  3fff  addlw   0xff
+0259:  3fff  addlw   0xff
+025a:  3fff  addlw   0xff
+025b:  3fff  addlw   0xff
+025c:  3fff  addlw   0xff
+025d:  3fff  addlw   0xff
+025e:  3fff  addlw   0xff
+025f:  3fff  addlw   0xff
+0260:  3fff  addlw   0xff
+0261:  3fff  addlw   0xff
+0262:  3fff  addlw   0xff
+0263:  3fff  addlw   0xff
+0264:  3fff  addlw   0xff
+0265:  3fff  addlw   0xff
+0266:  3fff  addlw   0xff
+0267:  3fff  addlw   0xff
+0268:  3fff  addlw   0xff
+0269:  3fff  addlw   0xff
+026a:  3fff  addlw   0xff
+026b:  3fff  addlw   0xff
+026c:  3fff  addlw   0xff
+026d:  3fff  addlw   0xff
+026e:  3fff  addlw   0xff
+026f:  3fff  addlw   0xff
+0270:  3fff  addlw   0xff
+0271:  3fff  addlw   0xff
+0272:  3fff  addlw   0xff
+0273:  3fff  addlw   0xff
+0274:  3fff  addlw   0xff
+0275:  3fff  addlw   0xff
+0276:  3fff  addlw   0xff
+0277:  3fff  addlw   0xff
+0278:  3fff  addlw   0xff
+0279:  3fff  addlw   0xff
+027a:  3fff  addlw   0xff
+027b:  3fff  addlw   0xff
+027c:  3fff  addlw   0xff
+027d:  3fff  addlw   0xff
+027e:  3fff  addlw   0xff
+027f:  3fff  addlw   0xff
+0280:  3fff  addlw   0xff
+0281:  3fff  addlw   0xff
+0282:  3fff  addlw   0xff
+0283:  3fff  addlw   0xff
+0284:  3fff  addlw   0xff
+0285:  3fff  addlw   0xff
+0286:  3fff  addlw   0xff
+0287:  3fff  addlw   0xff
+0288:  3fff  addlw   0xff
+0289:  3fff  addlw   0xff
+028a:  3fff  addlw   0xff
+028b:  3fff  addlw   0xff
+028c:  3fff  addlw   0xff
+028d:  3fff  addlw   0xff
+028e:  3fff  addlw   0xff
+028f:  3fff  addlw   0xff
+0290:  3fff  addlw   0xff
+0291:  3fff  addlw   0xff
+0292:  3fff  addlw   0xff
+0293:  3fff  addlw   0xff
+0294:  3fff  addlw   0xff
+0295:  3fff  addlw   0xff
+0296:  3fff  addlw   0xff
+0297:  3fff  addlw   0xff
+0298:  3fff  addlw   0xff
+0299:  3fff  addlw   0xff
+029a:  3fff  addlw   0xff
+029b:  3fff  addlw   0xff
+029c:  3fff  addlw   0xff
+029d:  3fff  addlw   0xff
+029e:  3fff  addlw   0xff
+029f:  3fff  addlw   0xff
+02a0:  3fff  addlw   0xff
+02a1:  3fff  addlw   0xff
+02a2:  3fff  addlw   0xff
+02a3:  3fff  addlw   0xff
+02a4:  3fff  addlw   0xff
+02a5:  3fff  addlw   0xff
+02a6:  3fff  addlw   0xff
+02a7:  3fff  addlw   0xff
+02a8:  3fff  addlw   0xff
+02a9:  3fff  addlw   0xff
+02aa:  3fff  addlw   0xff
+02ab:  3fff  addlw   0xff
+02ac:  3fff  addlw   0xff
+02ad:  3fff  addlw   0xff
+02ae:  3fff  addlw   0xff
+02af:  3fff  addlw   0xff
+02b0:  3fff  addlw   0xff
+02b1:  3fff  addlw   0xff
+02b2:  3fff  addlw   0xff
+02b3:  3fff  addlw   0xff
+02b4:  3fff  addlw   0xff
+02b5:  3fff  addlw   0xff
+02b6:  3fff  addlw   0xff
+02b7:  3fff  addlw   0xff
+02b8:  3fff  addlw   0xff
+02b9:  3fff  addlw   0xff
+02ba:  3fff  addlw   0xff
+02bb:  3fff  addlw   0xff
+02bc:  3fff  addlw   0xff
+02bd:  3fff  addlw   0xff
+02be:  3fff  addlw   0xff
+02bf:  3fff  addlw   0xff
+02c0:  3fff  addlw   0xff
+02c1:  3fff  addlw   0xff
+02c2:  3fff  addlw   0xff
+02c3:  3fff  addlw   0xff
+02c4:  3fff  addlw   0xff
+02c5:  3fff  addlw   0xff
+02c6:  3fff  addlw   0xff
+02c7:  3fff  addlw   0xff
+02c8:  3fff  addlw   0xff
+02c9:  3fff  addlw   0xff
+02ca:  3fff  addlw   0xff
+02cb:  3fff  addlw   0xff
+02cc:  3fff  addlw   0xff
+02cd:  3fff  addlw   0xff
+02ce:  3fff  addlw   0xff
+02cf:  3fff  addlw   0xff
+02d0:  3fff  addlw   0xff
+02d1:  3fff  addlw   0xff
+02d2:  3fff  addlw   0xff
+02d3:  3fff  addlw   0xff
+02d4:  3fff  addlw   0xff
+02d5:  3fff  addlw   0xff
+02d6:  3fff  addlw   0xff
+02d7:  3fff  addlw   0xff
+02d8:  3fff  addlw   0xff
+02d9:  3fff  addlw   0xff
+02da:  3fff  addlw   0xff
+02db:  3fff  addlw   0xff
+02dc:  3fff  addlw   0xff
+02dd:  3fff  addlw   0xff
+02de:  3fff  addlw   0xff
+02df:  3fff  addlw   0xff
+02e0:  3fff  addlw   0xff
+02e1:  3fff  addlw   0xff
+02e2:  3fff  addlw   0xff
+02e3:  3fff  addlw   0xff
+02e4:  3fff  addlw   0xff
+02e5:  3fff  addlw   0xff
+02e6:  3fff  addlw   0xff
+02e7:  3fff  addlw   0xff
+02e8:  3fff  addlw   0xff
+02e9:  3fff  addlw   0xff
+02ea:  3fff  addlw   0xff
+02eb:  3fff  addlw   0xff
+02ec:  3fff  addlw   0xff
+02ed:  3fff  addlw   0xff
+02ee:  3fff  addlw   0xff
+02ef:  3fff  addlw   0xff
+02f0:  3fff  addlw   0xff
+02f1:  3fff  addlw   0xff
+02f2:  3fff  addlw   0xff
+02f3:  3fff  addlw   0xff
+02f4:  3fff  addlw   0xff
+02f5:  3fff  addlw   0xff
+02f6:  3fff  addlw   0xff
+02f7:  3fff  addlw   0xff
+02f8:  3fff  addlw   0xff
+02f9:  3fff  addlw   0xff
+02fa:  3fff  addlw   0xff
+02fb:  3fff  addlw   0xff
+02fc:  3fff  addlw   0xff
+02fd:  3fff  addlw   0xff
+02fe:  3fff  addlw   0xff
+02ff:  3fff  addlw   0xff
+0300:  3fff  addlw   0xff
+0301:  3fff  addlw   0xff
+0302:  3fff  addlw   0xff
+0303:  3fff  addlw   0xff
+0304:  3fff  addlw   0xff
+0305:  3fff  addlw   0xff
+0306:  3fff  addlw   0xff
+0307:  3fff  addlw   0xff
+0308:  3fff  addlw   0xff
+0309:  3fff  addlw   0xff
+030a:  3fff  addlw   0xff
+030b:  3fff  addlw   0xff
+030c:  3fff  addlw   0xff
+030d:  3fff  addlw   0xff
+030e:  3fff  addlw   0xff
+030f:  3fff  addlw   0xff
+0310:  3fff  addlw   0xff
+0311:  3fff  addlw   0xff
+0312:  3fff  addlw   0xff
+0313:  3fff  addlw   0xff
+0314:  3fff  addlw   0xff
+0315:  3fff  addlw   0xff
+0316:  3fff  addlw   0xff
+0317:  3fff  addlw   0xff
+0318:  3fff  addlw   0xff
+0319:  3fff  addlw   0xff
+031a:  3fff  addlw   0xff
+031b:  3fff  addlw   0xff
+031c:  3fff  addlw   0xff
+031d:  3fff  addlw   0xff
+031e:  3fff  addlw   0xff
+031f:  3fff  addlw   0xff
+0320:  3fff  addlw   0xff
+0321:  3fff  addlw   0xff
+0322:  3fff  addlw   0xff
+0323:  3fff  addlw   0xff
+0324:  3fff  addlw   0xff
+0325:  3fff  addlw   0xff
+0326:  3fff  addlw   0xff
+0327:  3fff  addlw   0xff
+0328:  3fff  addlw   0xff
+0329:  3fff  addlw   0xff
+032a:  3fff  addlw   0xff
+032b:  3fff  addlw   0xff
+032c:  3fff  addlw   0xff
+032d:  3fff  addlw   0xff
+032e:  3fff  addlw   0xff
+032f:  3fff  addlw   0xff
+0330:  3fff  addlw   0xff
+0331:  3fff  addlw   0xff
+0332:  3fff  addlw   0xff
+0333:  3fff  addlw   0xff
+0334:  3fff  addlw   0xff
+0335:  3fff  addlw   0xff
+0336:  3fff  addlw   0xff
+0337:  3fff  addlw   0xff
+0338:  3fff  addlw   0xff
+0339:  3fff  addlw   0xff
+033a:  3fff  addlw   0xff
+033b:  3fff  addlw   0xff
+033c:  3fff  addlw   0xff
+033d:  3fff  addlw   0xff
+033e:  3fff  addlw   0xff
+033f:  3fff  addlw   0xff
+0340:  3fff  addlw   0xff
+0341:  3fff  addlw   0xff
+0342:  3fff  addlw   0xff
+0343:  3fff  addlw   0xff
+0344:  3fff  addlw   0xff
+0345:  3fff  addlw   0xff
+0346:  3fff  addlw   0xff
+0347:  3fff  addlw   0xff
+0348:  3fff  addlw   0xff
+0349:  3fff  addlw   0xff
+034a:  3fff  addlw   0xff
+034b:  3fff  addlw   0xff
+034c:  3fff  addlw   0xff
+034d:  3fff  addlw   0xff
+034e:  3fff  addlw   0xff
+034f:  3fff  addlw   0xff
+0350:  3fff  addlw   0xff
+0351:  3fff  addlw   0xff
+0352:  3fff  addlw   0xff
+0353:  3fff  addlw   0xff
+0354:  3fff  addlw   0xff
+0355:  3fff  addlw   0xff
+0356:  3fff  addlw   0xff
+0357:  3fff  addlw   0xff
+0358:  3fff  addlw   0xff
+0359:  3fff  addlw   0xff
+035a:  3fff  addlw   0xff
+035b:  3fff  addlw   0xff
+035c:  3fff  addlw   0xff
+035d:  3fff  addlw   0xff
+035e:  3fff  addlw   0xff
+035f:  3fff  addlw   0xff
+0360:  3fff  addlw   0xff
+0361:  3fff  addlw   0xff
+0362:  3fff  addlw   0xff
+0363:  3fff  addlw   0xff
+0364:  3fff  addlw   0xff
+0365:  3fff  addlw   0xff
+0366:  3fff  addlw   0xff
+0367:  3fff  addlw   0xff
+0368:  3fff  addlw   0xff
+0369:  3fff  addlw   0xff
+036a:  3fff  addlw   0xff
+036b:  3fff  addlw   0xff
+036c:  3fff  addlw   0xff
+036d:  3fff  addlw   0xff
+036e:  3fff  addlw   0xff
+036f:  3fff  addlw   0xff
+0370:  3fff  addlw   0xff
+0371:  3fff  addlw   0xff
+0372:  3fff  addlw   0xff
+0373:  3fff  addlw   0xff
+0374:  3fff  addlw   0xff
+0375:  3fff  addlw   0xff
+0376:  3fff  addlw   0xff
+0377:  3fff  addlw   0xff
+0378:  3fff  addlw   0xff
+0379:  3fff  addlw   0xff
+037a:  3fff  addlw   0xff
+037b:  3fff  addlw   0xff
+037c:  3fff  addlw   0xff
+037d:  3fff  addlw   0xff
+037e:  3fff  addlw   0xff
+037f:  3fff  addlw   0xff
+0380:  3fff  addlw   0xff
+0381:  3fff  addlw   0xff
+0382:  3fff  addlw   0xff
+0383:  3fff  addlw   0xff
+0384:  3fff  addlw   0xff
+0385:  3fff  addlw   0xff
+0386:  3fff  addlw   0xff
+0387:  3fff  addlw   0xff
+0388:  3fff  addlw   0xff
+0389:  3fff  addlw   0xff
+038a:  3fff  addlw   0xff
+038b:  3fff  addlw   0xff
+038c:  3fff  addlw   0xff
+038d:  3fff  addlw   0xff
+038e:  3fff  addlw   0xff
+038f:  3fff  addlw   0xff
+0390:  3fff  addlw   0xff
+0391:  3fff  addlw   0xff
+0392:  3fff  addlw   0xff
+0393:  3fff  addlw   0xff
+0394:  3fff  addlw   0xff
+0395:  3fff  addlw   0xff
+0396:  3fff  addlw   0xff
+0397:  3fff  addlw   0xff
+0398:  3fff  addlw   0xff
+0399:  3fff  addlw   0xff
+039a:  3fff  addlw   0xff
+039b:  3fff  addlw   0xff
+039c:  3fff  addlw   0xff
+039d:  3fff  addlw   0xff
+039e:  3fff  addlw   0xff
+039f:  3fff  addlw   0xff
+03a0:  3fff  addlw   0xff
+03a1:  3fff  addlw   0xff
+03a2:  3fff  addlw   0xff
+03a3:  3fff  addlw   0xff
+03a4:  3fff  addlw   0xff
+03a5:  3fff  addlw   0xff
+03a6:  3fff  addlw   0xff
+03a7:  3fff  addlw   0xff
+03a8:  3fff  addlw   0xff
+03a9:  3fff  addlw   0xff
+03aa:  3fff  addlw   0xff
+03ab:  3fff  addlw   0xff
+03ac:  3fff  addlw   0xff
+03ad:  3fff  addlw   0xff
+03ae:  3fff  addlw   0xff
+03af:  3fff  addlw   0xff
+03b0:  3fff  addlw   0xff
+03b1:  3fff  addlw   0xff
+03b2:  3fff  addlw   0xff
+03b3:  3fff  addlw   0xff
+03b4:  3fff  addlw   0xff
+03b5:  3fff  addlw   0xff
+03b6:  3fff  addlw   0xff
+03b7:  3fff  addlw   0xff
+03b8:  3fff  addlw   0xff
+03b9:  3fff  addlw   0xff
+03ba:  3fff  addlw   0xff
+03bb:  3fff  addlw   0xff
+03bc:  3fff  addlw   0xff
+03bd:  3fff  addlw   0xff
+03be:  3fff  addlw   0xff
+03bf:  3fff  addlw   0xff
+03c0:  3fff  addlw   0xff
+03c1:  3fff  addlw   0xff
+03c2:  3fff  addlw   0xff
+03c3:  3fff  addlw   0xff
+03c4:  3fff  addlw   0xff
+03c5:  3fff  addlw   0xff
+03c6:  3fff  addlw   0xff
+03c7:  3fff  addlw   0xff
+03c8:  3fff  addlw   0xff
+03c9:  3fff  addlw   0xff
+03ca:  3fff  addlw   0xff
+03cb:  3fff  addlw   0xff
+03cc:  3fff  addlw   0xff
+03cd:  3fff  addlw   0xff
+03ce:  3fff  addlw   0xff
+03cf:  3fff  addlw   0xff
+03d0:  3fff  addlw   0xff
+03d1:  3fff  addlw   0xff
+03d2:  3fff  addlw   0xff
+03d3:  3fff  addlw   0xff
+03d4:  3fff  addlw   0xff
+03d5:  3fff  addlw   0xff
+03d6:  3fff  addlw   0xff
+03d7:  3fff  addlw   0xff
+03d8:  3fff  addlw   0xff
+03d9:  3fff  addlw   0xff
+03da:  3fff  addlw   0xff
+03db:  3fff  addlw   0xff
+03dc:  3fff  addlw   0xff
+03dd:  3fff  addlw   0xff
+03de:  3fff  addlw   0xff
+03df:  3fff  addlw   0xff
+03e0:  3fff  addlw   0xff
+03e1:  3fff  addlw   0xff
+03e2:  3fff  addlw   0xff
+03e3:  3fff  addlw   0xff
+03e4:  3fff  addlw   0xff
+03e5:  3fff  addlw   0xff
+03e6:  3fff  addlw   0xff
+03e7:  3fff  addlw   0xff
+03e8:  3fff  addlw   0xff
+03e9:  3fff  addlw   0xff
+03ea:  3fff  addlw   0xff
+03eb:  3fff  addlw   0xff
+03ec:  3fff  addlw   0xff
+03ed:  3fff  addlw   0xff
+03ee:  3fff  addlw   0xff
+03ef:  3fff  addlw   0xff
+03f0:  3fff  addlw   0xff
+03f1:  3fff  addlw   0xff
+03f2:  3fff  addlw   0xff
+03f3:  3fff  addlw   0xff
+03f4:  3fff  addlw   0xff
+03f5:  3fff  addlw   0xff
+03f6:  3fff  addlw   0xff
+03f7:  3fff  addlw   0xff
+03f8:  3fff  addlw   0xff
+03f9:  3fff  addlw   0xff
+03fa:  3fff  addlw   0xff
+03fb:  3fff  addlw   0xff
+03fc:  3fff  addlw   0xff
+03fd:  3fff  addlw   0xff
+03fe:  3fff  addlw   0xff
+
+function_008:                                               ; address: 0x03ff
+
+03ff:  3444  retlw   0x44
+
+;===============================================================================
+; EEDATA area
+2100:  de    db      0xde
+2100:  00    db      0x00
+2101:  ff    db      0xff
+2101:  00    db      0x00
+2102:  ff    db      0xff
+2102:  00    db      0x00
+2103:  ff    db      0xff
+2103:  00    db      0x00
+2104:  ff    db      0xff
+2104:  00    db      0x00
+2105:  ff    db      0xff
+2105:  00    db      0x00
+2106:  ff    db      0xff
+2106:  00    db      0x00
+2107:  ff    db      0xff
+2107:  00    db      0x00
+2108:  ff    db      0xff
+2108:  00    db      0x00
+2109:  ff    db      0xff
+2109:  00    db      0x00
+210a:  ff    db      0xff
+210a:  00    db      0x00
+210b:  ff    db      0xff
+210b:  00    db      0x00
+210c:  ff    db      0xff
+210c:  00    db      0x00
+210d:  ff    db      0xff
+210d:  00    db      0x00
+210e:  ff    db      0xff
+210e:  00    db      0x00
+210f:  ff    db      0xff
+210f:  00    db      0x00
+2110:  ff    db      0xff
+2110:  00    db      0x00
+2111:  ff    db      0xff
+2111:  00    db      0x00
+2112:  ff    db      0xff
+2112:  00    db      0x00
+2113:  ff    db      0xff
+2113:  00    db      0x00
+2114:  ff    db      0xff
+2114:  00    db      0x00
+2115:  ff    db      0xff
+2115:  00    db      0x00
+2116:  ff    db      0xff
+2116:  00    db      0x00
+2117:  ff    db      0xff
+2117:  00    db      0x00
+2118:  ff    db      0xff
+2118:  00    db      0x00
+2119:  ff    db      0xff
+2119:  00    db      0x00
+211a:  ff    db      0xff
+211a:  00    db      0x00
+211b:  ff    db      0xff
+211b:  00    db      0x00
+211c:  ff    db      0xff
+211c:  00    db      0x00
+211d:  ff    db      0xff
+211d:  00    db      0x00
+211e:  ff    db      0xff
+211e:  00    db      0x00
+211f:  ff    db      0xff
+211f:  00    db      0x00
+2120:  ff    db      0xff
+2120:  00    db      0x00
+2121:  ff    db      0xff
+2121:  00    db      0x00
+2122:  ff    db      0xff
+2122:  00    db      0x00
+2123:  ff    db      0xff
+2123:  00    db      0x00
+2124:  ff    db      0xff
+2124:  00    db      0x00
+2125:  ff    db      0xff
+2125:  00    db      0x00
+2126:  ff    db      0xff
+2126:  00    db      0x00
+2127:  ff    db      0xff
+2127:  00    db      0x00
+2128:  ff    db      0xff
+2128:  00    db      0x00
+2129:  ff    db      0xff
+2129:  00    db      0x00
+212a:  ff    db      0xff
+212a:  00    db      0x00
+212b:  ff    db      0xff
+212b:  00    db      0x00
+212c:  ff    db      0xff
+212c:  00    db      0x00
+212d:  ff    db      0xff
+212d:  00    db      0x00
+212e:  ff    db      0xff
+212e:  00    db      0x00
+212f:  ff    db      0xff
+212f:  00    db      0x00
+2130:  ff    db      0xff
+2130:  00    db      0x00
+2131:  ff    db      0xff
+2131:  00    db      0x00
+2132:  ff    db      0xff
+2132:  00    db      0x00
+2133:  ff    db      0xff
+2133:  00    db      0x00
+2134:  ff    db      0xff
+2134:  00    db      0x00
+2135:  ff    db      0xff
+2135:  00    db      0x00
+2136:  ff    db      0xff
+2136:  00    db      0x00
+2137:  ff    db      0xff
+2137:  00    db      0x00
+2138:  ff    db      0xff
+2138:  00    db      0x00
+2139:  ff    db      0xff
+2139:  00    db      0x00
+213a:  ff    db      0xff
+213a:  00    db      0x00
+213b:  ff    db      0xff
+213b:  00    db      0x00
+213c:  ff    db      0xff
+213c:  00    db      0x00
+213d:  ff    db      0xff
+213d:  00    db      0x00
+213e:  ff    db      0xff
+213e:  00    db      0x00
+213f:  ff    db      0xff
+213f:  00    db      0x00
+2140:  ff    db      0xff
+2140:  00    db      0x00
+2141:  ff    db      0xff
+2141:  00    db      0x00
+2142:  ff    db      0xff
+2142:  00    db      0x00
+2143:  ff    db      0xff
+2143:  00    db      0x00
+2144:  ff    db      0xff
+2144:  00    db      0x00
+2145:  ff    db      0xff
+2145:  00    db      0x00
+2146:  ff    db      0xff
+2146:  00    db      0x00
+2147:  ff    db      0xff
+2147:  00    db      0x00
+2148:  ff    db      0xff
+2148:  00    db      0x00
+2149:  ff    db      0xff
+2149:  00    db      0x00
+214a:  ff    db      0xff
+214a:  00    db      0x00
+214b:  ff    db      0xff
+214b:  00    db      0x00
+214c:  ff    db      0xff
+214c:  00    db      0x00
+214d:  ff    db      0xff
+214d:  00    db      0x00
+214e:  ff    db      0xff
+214e:  00    db      0x00
+214f:  ff    db      0xff
+214f:  00    db      0x00
+2150:  ff    db      0xff
+2150:  00    db      0x00
+2151:  ff    db      0xff
+2151:  00    db      0x00
+2152:  ff    db      0xff
+2152:  00    db      0x00
+2153:  ff    db      0xff
+2153:  00    db      0x00
+2154:  ff    db      0xff
+2154:  00    db      0x00
+2155:  ff    db      0xff
+2155:  00    db      0x00
+2156:  ff    db      0xff
+2156:  00    db      0x00
+2157:  ff    db      0xff
+2157:  00    db      0x00
+2158:  ff    db      0xff
+2158:  00    db      0x00
+2159:  ff    db      0xff
+2159:  00    db      0x00
+215a:  ff    db      0xff
+215a:  00    db      0x00
+215b:  ff    db      0xff
+215b:  00    db      0x00
+215c:  ff    db      0xff
+215c:  00    db      0x00
+215d:  ff    db      0xff
+215d:  00    db      0x00
+215e:  ff    db      0xff
+215e:  00    db      0x00
+215f:  ff    db      0xff
+215f:  00    db      0x00
+2160:  ff    db      0xff
+2160:  00    db      0x00
+2161:  ff    db      0xff
+2161:  00    db      0x00
+2162:  ff    db      0xff
+2162:  00    db      0x00
+2163:  ff    db      0xff
+2163:  00    db      0x00
+2164:  ff    db      0xff
+2164:  00    db      0x00
+2165:  ff    db      0xff
+2165:  00    db      0x00
+2166:  ff    db      0xff
+2166:  00    db      0x00
+2167:  ff    db      0xff
+2167:  00    db      0x00
+2168:  ff    db      0xff
+2168:  00    db      0x00
+2169:  ff    db      0xff
+2169:  00    db      0x00
+216a:  ff    db      0xff
+216a:  00    db      0x00
+216b:  ff    db      0xff
+216b:  00    db      0x00
+216c:  ff    db      0xff
+216c:  00    db      0x00
+216d:  ff    db      0xff
+216d:  00    db      0x00
+216e:  ff    db      0xff
+216e:  00    db      0x00
+216f:  ff    db      0xff
+216f:  00    db      0x00
+2170:  ff    db      0xff
+2170:  00    db      0x00
+2171:  ff    db      0xff
+2171:  00    db      0x00
+2172:  ff    db      0xff
+2172:  00    db      0x00
+2173:  ff    db      0xff
+2173:  00    db      0x00
+2174:  ff    db      0xff
+2174:  00    db      0x00
+2175:  ff    db      0xff
+2175:  00    db      0x00
+2176:  ff    db      0xff
+2176:  00    db      0x00
+2177:  ff    db      0xff
+2177:  00    db      0x00
+2178:  ff    db      0xff
+2178:  00    db      0x00
+2179:  ff    db      0xff
+2179:  00    db      0x00
+217a:  ff    db      0xff
+217a:  00    db      0x00
+217b:  ff    db      0xff
+217b:  00    db      0x00
+217c:  ff    db      0xff
+217c:  00    db      0x00
+217d:  ff    db      0xff
+217d:  00    db      0x00
+217e:  ff    db      0xff
+217e:  00    db      0x00
+217f:  ff    db      0xff
+217f:  00    db      0x00
